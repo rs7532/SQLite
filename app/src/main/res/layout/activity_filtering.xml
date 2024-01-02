@@ -23,9 +23,30 @@
             android:layout_height="50dp" />
 
         <Spinner
-            android:id="@+id/filters_spinner"
+            android:id="@+id/selectFilter_spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="20dp" />
+
+        <TextView
+            android:id="@+id/chooseQuarter_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose a quarter:"
+            android:visibility="invisible" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp" />
+
+        <Spinner
+            android:id="@+id/selectQuarter_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible" />
 
         <Space
             android:layout_width="match_parent"

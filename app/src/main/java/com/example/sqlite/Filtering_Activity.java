@@ -15,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -27,10 +28,11 @@ public class Filtering_Activity extends AppCompatActivity implements AdapterView
     HelperDB hlp;
     SQLiteDatabase db;
     Cursor crsr;
-    ArrayList<String> quarter_list, filters_tbl, unfiltered_students, per_class, assignment_list;
-    Spinner filters_spinner;
+    ArrayList<String> filters_tbl, unfiltered_students, per_class, assignment_list, quarter1, quarter2, quarter3, quarter4, quarterNumber;
+    Spinner filters_spinner, selectQuarter_spinner;
     ListView filtered_lv;
     ArrayAdapter<String> filtered_lv_adp;
+    TextView chooseQuarter_tv;
 
     /**
      *
@@ -47,9 +49,15 @@ public class Filtering_Activity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_filtering);
 
         filtered_lv = findViewById(R.id.filtered_lv);
-        filters_spinner = findViewById(R.id.filters_spinner);
+        filters_spinner = findViewById(R.id.selectFilter_spinner);
+        selectQuarter_spinner = findViewById(R.id.selectQuarter_spinner);
+        chooseQuarter_tv = findViewById(R.id.chooseQuarter_tv);
 
-        quarter_list = new ArrayList<>();
+        quarter1 = new ArrayList<>();
+        quarter2 = new ArrayList<>();
+        quarter3 = new ArrayList<>();
+        quarter4 = new ArrayList<>();
+        quarterNumber = new ArrayList<>();
         assignment_list = new ArrayList<>();
         per_class = new ArrayList<>();
         unfiltered_students = new ArrayList<>();
@@ -58,6 +66,11 @@ public class Filtering_Activity extends AppCompatActivity implements AdapterView
         filters_tbl.add("by a quarter");
         filters_tbl.add("by a class");
         filters_tbl.add("by an assignment");
+
+        quarterNumber.add("1");
+        quarterNumber.add("2");
+        quarterNumber.add("3");
+        quarterNumber.add("4");
         hlp = new HelperDB(this);
 
         /**
@@ -91,7 +104,21 @@ public class Filtering_Activity extends AppCompatActivity implements AdapterView
             String StudentGrade = crsr.getString(grade);
             String StudentName = crsr.getString(name);
             int quarter = crsr.getInt(quarter_col);
-            quarter_list.add(StudentName+": "+StudentGrade+" in quarter "+quarter);
+            if (quarter == 1){
+                quarter1.add(StudentName+": "+StudentGrade);
+            }
+            else if (quarter == 2){
+                quarter2.add(StudentName+": "+StudentGrade);
+
+            }
+            else if (quarter == 3){
+                quarter3.add(StudentName+": "+StudentGrade);
+
+            }
+            else if (quarter == 4){
+                quarter4.add(StudentName+": "+StudentGrade);
+
+            }
             crsr.moveToNext();
         }
         db.close();
@@ -137,10 +164,15 @@ public class Filtering_Activity extends AppCompatActivity implements AdapterView
         crsr.close();
 
         filters_spinner.setOnItemSelectedListener(this);
+        selectQuarter_spinner.setOnItemSelectedListener(this);
 
-        ArrayAdapter<String> spinner_adp = new ArrayAdapter<>(this,
+        ArrayAdapter<String> filtersSpinner_adp = new ArrayAdapter<>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, filters_tbl);
-        filters_spinner.setAdapter(spinner_adp);
+        filters_spinner.setAdapter(filtersSpinner_adp);
+
+        ArrayAdapter<String> selectQuarter_spinner_adp = new ArrayAdapter<>(this,
+                androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quarterNumber);
+        selectQuarter_spinner.setAdapter(selectQuarter_spinner_adp);
 
         filtered_lv.setOnItemClickListener(this);
         filtered_lv.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -160,20 +192,50 @@ public class Filtering_Activity extends AppCompatActivity implements AdapterView
      */
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (position == 1){
-            filtered_lv_adp = new ArrayAdapter<>(this,
-                    androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quarter_list);
-            filtered_lv.setAdapter(filtered_lv_adp);
+        if (parent == filters_spinner) {
+            if (position == 1){
+                selectQuarter_spinner.setVisibility(View.VISIBLE);
+                chooseQuarter_tv.setVisibility(View.VISIBLE);
+                filtered_lv_adp = new ArrayAdapter<>(this,
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quarter1);
+                filtered_lv.setAdapter(filtered_lv_adp);
+            }
+            else if(position == 2){
+                filtered_lv_adp = new ArrayAdapter<>(this,
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, per_class);
+                filtered_lv.setAdapter(filtered_lv_adp);
+                selectQuarter_spinner.setVisibility(View.INVISIBLE);
+                chooseQuarter_tv.setVisibility(View.INVISIBLE);
+            }
+            else if (position == 3){
+                filtered_lv_adp = new ArrayAdapter<>(this,
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, assignment_list);
+                filtered_lv.setAdapter(filtered_lv_adp);
+                selectQuarter_spinner.setVisibility(View.INVISIBLE);
+                chooseQuarter_tv.setVisibility(View.INVISIBLE);
+            }
         }
-        else if(position == 2){
-            filtered_lv_adp = new ArrayAdapter<>(this,
-                    androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, per_class);
-            filtered_lv.setAdapter(filtered_lv_adp);
-        }
-        else if (position == 3){
-            filtered_lv_adp = new ArrayAdapter<>(this,
-                    androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, assignment_list);
-            filtered_lv.setAdapter(filtered_lv_adp);
+        else{
+            if (position == 0){
+                filtered_lv_adp = new ArrayAdapter<>(this,
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quarter1);
+                filtered_lv.setAdapter(filtered_lv_adp);
+            }
+            if (position == 1){
+                filtered_lv_adp = new ArrayAdapter<>(this,
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quarter2);
+                filtered_lv.setAdapter(filtered_lv_adp);
+            }
+            if (position == 2){
+                filtered_lv_adp = new ArrayAdapter<>(this,
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quarter3);
+                filtered_lv.setAdapter(filtered_lv_adp);
+            }
+            if (position == 3){
+                filtered_lv_adp = new ArrayAdapter<>(this,
+                        androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, quarter4);
+                filtered_lv.setAdapter(filtered_lv_adp);
+            }
         }
     }
 

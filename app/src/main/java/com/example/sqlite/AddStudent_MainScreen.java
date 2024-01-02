@@ -66,22 +66,22 @@ public class AddStudent_MainScreen extends AppCompatActivity {
         adb.setTitle("Alert!");
         final TextView tv = new TextView(this);
         adb.setView(tv);
-        if (MobileET.getText().toString().charAt(0) != '0'){
+        if (MobileET.getText().toString().charAt(0) != '0' && MobileET.getText().toString().length() < 11){
             Toast.makeText(this,"Incorrect phone pattern!", Toast.LENGTH_LONG).show();
             MobileET.setText("");
             ok_flag = false;
         }
-        else if (HomePhoneET.getText().toString().charAt(0) != '0'){
+        else if (HomePhoneET.getText().toString().charAt(0) != '0' && HomePhoneET.getText().toString().length() < 11){
             Toast.makeText(this,"Incorrect phone pattern!", Toast.LENGTH_LONG).show();
             HomePhoneET.setText("");
             ok_flag = false;
         }
-        else if (FatherNumberET.getText().toString().charAt(0) != '0'){
+        else if (FatherNumberET.getText().toString().charAt(0) != '0' && FatherNumberET.getText().toString().length() < 11){
             Toast.makeText(this,"Incorrect phone pattern!", Toast.LENGTH_LONG).show();
             FatherNumberET.setText("");
             ok_flag = false;
         }
-        else if (MotherNumberET.getText().toString().charAt(0) != '0'){
+        else if (MotherNumberET.getText().toString().charAt(0) != '0' && MotherNumberET.getText().toString().length() < 11){
             Toast.makeText(this,"Incorrect phone pattern!", Toast.LENGTH_LONG).show();
             MotherNumberET.setText("");
             ok_flag = false;

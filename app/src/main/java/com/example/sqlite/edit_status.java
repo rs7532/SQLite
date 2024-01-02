@@ -64,14 +64,14 @@ public class edit_status extends AppCompatActivity implements AdapterView.OnItem
         studentsList = new ArrayList<>();
         idList = new ArrayList<>();
         studentsList.add("choose a student");
-        String selection = Students.STATUS+"=?";
+        String selection = STATUS+"=?";
         String[] selectionArgs = {"0"};
-        String orderBy = Students.KEY_ID;
+        String orderBy = KEY_ID;
         db = hlp.getReadableDatabase();
         crsr = db.query(TABLE_STUDENTS, null, selection, selectionArgs, null, null, orderBy);
 
-        int Name_col = crsr.getColumnIndex(Students.STUDENT_NAME);
-        int id_col = crsr.getColumnIndex(Students.KEY_ID);
+        int Name_col = crsr.getColumnIndex(STUDENT_NAME);
+        int id_col = crsr.getColumnIndex(KEY_ID);
 
         crsr.moveToFirst();
         while(!crsr.isAfterLast()){
@@ -89,6 +89,7 @@ public class edit_status extends AppCompatActivity implements AdapterView.OnItem
         ArrayAdapter<String> adp = new ArrayAdapter<>(this,
                 androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, studentsList);
         Students_spinner.setAdapter(adp);
+
     }
 
     /**
